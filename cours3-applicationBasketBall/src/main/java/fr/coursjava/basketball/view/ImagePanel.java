@@ -18,15 +18,27 @@ public class ImagePanel extends JPanel implements Serializable {
         return image;
     }
 
+    Integer x, y;
+    public void setGround(){
+        x = 0;
+        y = 400 - 210 - 40;
+    }
+
+    public void setAir(){
+        x = 0;
+        y = 400 - 210 - 100;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
+        if(x == null){
+            setGround();
+        }
         super.paintComponent(g); //paint background
         if (image != null) { //there is a picture: draw it
-            int height = this.getSize().height;
-            int width = this.getSize().width;
-            //g.drawImage(image, 0, 0, this); //use image size
-            g.drawImage(image,0,0, width, height, this);
+          g.drawImage(image,x,y, 142, 210, this);
         }
     }
+
 }
 
