@@ -1,24 +1,26 @@
 package fr.coursjava.basketball.view;
 
+import fr.coursjava.basketball.model.Man;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Screen extends JFrame {
+public class Screen extends JFrame implements Runnable {
 
-    private Image[] onGroupImage;
-    private Image[] onAirImage;
+    private ImagePanel p;
+    private Man man;
 
-    public Screen() throws IOException {
+    public Screen(Man man) throws IOException {
+        this.man = man;
         super.setSize(200, 400);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setLayout(null);
-        loadSprites();
-        ImagePanel p = new ImagePanel(onGroupImage[0]);
+        p = new ImagePanel(this.man.getNextImage());
 
         p.setBackground(Color.CYAN);
         getContentPane().add(p);
@@ -27,52 +29,37 @@ public class Screen extends JFrame {
 
         super.setVisible(true);
 
-        int current = 0;
-        Image[] tmp = onGroupImage;
-        for(int i = 1 ; i < 1000 ; i++){
-            int index = i%tmp.length;
-            if(index == 0){
-                if(onGroupImage.equals(tmp)){
-                    tmp = onAirImage;
-                    p.setAir();
-                }else{
-                    tmp = onGroupImage;
-                    p.setGround();
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_SPACE){
+                    man.jump();
+                    man.computeNextImage();
                 }
             }
-            Image next = tmp[index];
-            p.setImage(next);
-            p.repaint();
+        });
+
+
+    }
+
+    @Override
+    public void run() {
+        while(true){
             try {
                 Thread.sleep(100);
             }catch(Exception e){
 
             }
+
+            p.setImage(man.getNextImage());
+            p.repaint();
+
+            if(man.isJumping()){
+                p.setAir();
+            }else{
+                p.setGround();
+            }
+
         }
-    }
-
-    private void loadSprites() throws IOException {
-        onGroupImage = loadSprites("ground");
-        onAirImage = loadSprites("air");
-    }
-
-
-    private Image[] loadSprites(String pattern) throws IOException {
-        Map<Integer, Image> images = new HashMap<>();
-
-        int i = 0;
-        URL elt;
-        while ((elt = getClass().getClassLoader().getResource(pattern + "-" + i + ".png")) != null) {
-            images.put(images.size(), Toolkit.getDefaultToolkit().getImage(elt));
-            i++;
-        }
-
-        Image[] result = new Image[images.size()];
-
-        for (Map.Entry<Integer, Image> entry : images.entrySet()) {
-            result[entry.getKey()] = entry.getValue();
-        }
-
-        return result;
     }
 }
