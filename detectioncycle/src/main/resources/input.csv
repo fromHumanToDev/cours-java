@@ -1,0 +1,7 @@
+"1";"/a.html";"https://www.monsite.com/b.html";"301";"2015-07-17 13:28:34"
+"2";"/b.html";"https://www.monsite.com/c.html";"301";"2015-07-20 14:40:56"
+"4";"/c.html";"https://www.monsite.com/b.html";"301";"2015-07-20 15:00:51"
+"8";"/d.html";"https://www.monsite.com/e.html";"301";"2015-07-21 17:01:29"
+"9";"/f.html";"https://www.monsite.com/g";"301";"2015-07-21 17:03:07"
+"10";"/g";"https://www.monsite.com/h";"301";"2015-07-21 17:04:15"
+"11";"/i";"https://www.monsite.com/a.html";"301";"2015-07-21 17:05:58"
