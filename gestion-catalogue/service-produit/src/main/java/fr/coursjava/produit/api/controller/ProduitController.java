@@ -56,6 +56,6 @@ public class ProduitController implements ProduitsApi {
 
     @Override
     public ResponseEntity<Produit> getProduit(Long produitId) {
-        return produitData.get(produitId);
+        return new ResponseEntity<>(produitData.get(produitId), HttpStatus.OK);
     }
 }
