@@ -7,6 +7,7 @@ create table famille (
 create table produit (
     id INTEGER not null AUTO_INCREMENT ,
     nom varchar(25) not null,
+    description varchar(255),
     famille_id INTEGER not null references famille(id),
     primary key(id)
 );
