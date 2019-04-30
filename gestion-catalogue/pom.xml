@@ -23,6 +23,7 @@
 
     <modules>
         <module>service-produit</module>
+        <module>service-client</module>
     </modules>
 
 

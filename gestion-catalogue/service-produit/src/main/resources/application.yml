@@ -5,7 +5,7 @@ spring:
     password:
     driver-class-name: org.h2.Driver
     initialize: true
-    plateform: h2
+    platform: h2
   h2:
     console:
       path: /h2
