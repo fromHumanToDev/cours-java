@@ -1,0 +1,150 @@
+#https://swagger.io/docs/specification/data-models/data-types/
+swagger: "2.0"
+info:
+  description: "Ce service permet de recupérer des commandes"
+  version: "1.0.0"
+  title: "Swagger Commande"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/api"
+tags:
+  - name: "commande"
+    description: "Accès aux données commandes"
+schemes:
+  - "http"
+paths:
+  /commandes/{clientId}:
+    get:
+      tags:
+        - "commande"
+      summary: "Lister les commandes d'un client"
+      description: "Permet de lister l'ensemble des commandes d'un client"
+      operationId: "getCommandes"
+      parameters:
+        - in: query
+          name: page
+          type: integer
+        - in: query
+          name: size
+          type: integer
+        - in: path
+          name: clientId
+          description: "identifiant du client"
+          required: true
+          type: "integer"
+          format: "int64"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Commande"
+        405:
+          description: "Invalid input"
+    post:
+      tags:
+        - "client"
+      summary: "Creation d'une commande"
+      description: "Permet de créer une nouvelle commande"
+      operationId: "creerCommande"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: path
+          name: clientId
+          description: "identifiant du client"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "Client a créer"
+          required: true
+          schema:
+            $ref: "#/definitions/CommandeCreation"
+      responses:
+        201:
+          description: "successful operation"
+        405:
+          description: "Invalid input"
+definitions:
+  CommandeCreation:
+    type: "object"
+    properties:
+      lignes:
+        type: "array"
+        items: 
+          $ref: '#/definitions/CommandeLineCreation'
+    required:
+      - "lignes"
+  Commande:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      clientId: 
+        type: "integer"
+        format: "int64"
+      adresseLivraison:
+        $ref: "#/definitions/Adresse"
+      montantTotal:
+        type: "number"
+        format: "float"
+      lignes:
+        type: "array"
+        items: 
+          $ref: '#/definitions/CommandeLine'
+  CommandeLineCreation:
+    type: "object"
+    properties:
+      produitId:
+        type: "integer"
+        format : "int64"
+      declinaisonId:
+        type: "integer"
+        format : "int64"
+      quantite:
+        type: "integer"
+    required:
+      - "produitId"
+      - "quantite"
+  CommandeLine:
+    type: "object"
+    properties:
+      produitId:
+        type: "integer"
+        format : "int64"
+      declinaisonId:
+        type: "integer"
+        format : "int64"
+      quantite:
+        type: "integer"
+      prixAchat:
+        type: "number"
+        format: "float"
+    required:
+      - "produitId"
+      - "quantite"
+      - "prixAchat"
+  Adresse:
+    type: "object"
+    properties:
+      rue:
+        type: "string"
+      codePostal:
+        type: "string"
+      ville:
+        type: "string"
+    required:
+      - "rue"
+      - "codePostal"
+      - "ville"

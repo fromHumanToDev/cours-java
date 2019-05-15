@@ -1,0 +1,140 @@
+#https://swagger.io/docs/specification/data-models/data-types/
+swagger: "2.0"
+info:
+  description: "Ce service permet de recupérer des clients et leur adresse"
+  version: "1.0.0"
+  title: "Swagger Client"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost"
+basePath: "/api"
+tags:
+  - name: "client"
+    description: "Accès aux données clients"
+schemes:
+  - "http"
+paths:
+  /clients:
+    get:
+      tags:
+        - "client"
+      summary: "Lister les clients"
+      description: "Permet de lister l'ensemble des clients"
+      operationId: "listClients"
+      parameters:
+        - in: query
+          name: page
+          type: integer
+        - in: query
+          name: size
+          type: integer
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ClientReference"
+        405:
+          description: "Invalid input"
+    post:
+      tags:
+        - "client"
+      summary: "Creation d'un produit"
+      description: "Permet de créer un nouveau client"
+      operationId: "creerClient"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Client a créer"
+          required: true
+          schema:
+            $ref: "#/definitions/ClientCreation"
+      responses:
+        201:
+          description: "successful operation"
+        405:
+          description: "Invalid input"
+  /clients/{clientId}:
+    get:
+      tags:
+        - "client"
+      summary: "consulter la fiche detaillée d'un client"
+      description: ""
+      operationId: "getClient"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "clientId"
+          in: "path"
+          description: "identifiant du client"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Reference connue"
+          schema:
+            $ref: "#/definitions/Client"
+        404:
+          description: "Reference inconnue"
+definitions:
+  ClientCreation:
+    type: "object"
+    properties:
+      nom:
+        type: "string"
+      prenom:
+        type: "string"
+      adresse:
+        $ref: '#/definitions/Adresse'
+    required:
+      - "nom"
+      - "prenom"
+      - "adresse"
+
+  ClientReference:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nom:
+        type: "string"
+      prenom:
+        type: "string"
+  Client:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      nom:
+        type: "string"
+      prenom:
+        type: "string"
+      adresse:
+        $ref: '#/definitions/Adresse'
+
+  Adresse:
+    type: "object"
+    properties:
+      rue:
+        type: "string"
+      codePostal:
+        type: "string"
+      ville:
+        type: "string"
+    required:
+      - "rue"
+      - "codePostal"
+      - "ville"
