@@ -24,6 +24,8 @@
     <modules>
         <module>service-produit</module>
         <module>service-client</module>
+        <module>service-commande</module>
+        <module>load-balancer</module>
     </modules>
 
 

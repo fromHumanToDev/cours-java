@@ -4,6 +4,7 @@ import com.mongodb.MongoClient;
 import fr.coursjava.api.client.router.ClientApi;
 import fr.coursjava.api.produit.router.ProduitApi;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,7 @@ public class AppConfig {
         return new MongoTemplate(mongo(), "test");
     }
 
+    @LoadBalanced
     @Bean("restTemplate")
     public RestTemplate restTemplate(){
         return new RestTemplate();

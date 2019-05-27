@@ -13,11 +13,11 @@ public class ExternalConfig {
 
     @Autowired
     public void setProduitApiUrl(ProduitApi produitApi, RestTemplate restTemplate){
-        produitApi.getApiClient().setBasePath("http://localhost:8082");
+        produitApi.getApiClient().setBasePath("http://produit-service");
     }
 
     @Autowired
     public void setClientApiUrl(ClientApi clientApi, RestTemplate restTemplate){
-        clientApi.getApiClient().setBasePath("http://localhost:8081");
+        clientApi.getApiClient().setBasePath("http://client-service");
     }
 }

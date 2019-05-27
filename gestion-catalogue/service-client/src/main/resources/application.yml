@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: client-service
   datasource:
     url: jdbc:postgresql://localhost:5432/serviceClient
     username: QIMAPlatformAPI
@@ -13,3 +15,10 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
+server:
+  port: 8081
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:7777/eureka/
